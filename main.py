@@ -1,5 +1,4 @@
 import os
-import asyncio
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, ContextTypes, filters
 
@@ -7,8 +6,8 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 main_menu = ReplyKeyboardMarkup(
     [
-        ["📋 Menyu", "ℹ️ Ma'lumot"],
-        ["📞 Aloqa", "❓ Yordam"]
+        ["≡ƒôï Menyu", "Γä╣∩╕Å Ma'lumot"],
+        ["≡ƒô₧ Aloqa", "Γ¥ô Yordam"]
     ],
     resize_keyboard=True
 )
@@ -24,32 +23,32 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text
 
-    if text == "📋 Menyu":
+    if text == "≡ƒôï Menyu":
         await update.message.reply_text(
-            "📋 Menyu bo'limi\n\n"
+            "≡ƒôï Menyu bo'limi\n\n"
             "Bu yerda turli xil variantlar bor.\n"
             "Boshqa bo'limlarga o'ting yoki savol bering!"
         )
-    
-    elif text == "ℹ️ Ma'lumot":
+
+    elif text == "Γä╣∩╕Å Ma'lumot":
         await update.message.reply_text(
-            "ℹ️ Ma'lumot bo'limi\n\n"
+            "Γä╣∩╕Å Ma'lumot bo'limi\n\n"
             "Bot haqida ma'lumot:\n"
             "- Bot 24/7 ishlaydi\n"
             "- Uzluksiz xizmat ko'rsatadi\n"
             "- Tez va ishonchli"
         )
-    
-    elif text == "📞 Aloqa":
+
+    elif text == "≡ƒô₧ Aloqa":
         await update.message.reply_text(
-            "📞 Aloqa uchun:\n\n"
+            "≡ƒô₧ Aloqa uchun:\n\n"
             "Telefon: +998903544777\n"
             "Telegram: @jah0n_299"
         )
 
-    elif text == "❓ Yordam":
+    elif text == "Γ¥ô Yordam":
         await update.message.reply_text(
-            "❓ Yordam bo'limi\n\n"
+            "Γ¥ô Yordam bo'limi\n\n"
             "Savolingiz bo'lsa:\n"
             "1. Savol yozing\n"
             "2. Javob kutib turing\n"
@@ -60,22 +59,15 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text("Iltimos, menyudan birini tanlang.")
 
 
-async def main():
+def main():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
 
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     print("Bot ishga tushdi...")
-    await app.initialize()
-    await app.start()
-    await app.updater.start_polling()
-    
-    try:
-        await asyncio.Event().wait()
-    except KeyboardInterrupt:
-        await app.stop()
+    app.run_polling()
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
